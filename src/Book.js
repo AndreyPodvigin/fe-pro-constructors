@@ -22,21 +22,26 @@ export function Book(title, year, user, authors) {
 
   Object.defineProperty(this, 'suggestedBooks', {
     get() {
-      const allBooks = this.authors.reduce((resultArray, { books }) => {
-        return resultArray.concat(books);
-      }, []);
 
-      const uniqueBooks = new Set(allBooks);
-      const uniqueBooksInArray = [];
-      uniqueBooks.forEach((item) => uniqueBooksInArray.push(item));
+      return [...new Set(this.authors.reduce((resultArray, { books }) => {
+        return resultArray.concat(books)}, []))].filter((book) => {
+        if (book !== this) return book }).map(({ title }) => title).join(', ');
 
-      const removedThisBook = uniqueBooksInArray.filter((book) => {
-        if (book !== this) {
-          return book
-        }
-      });
-      const uniqueBooksTitles = removedThisBook.map(({ title }) => title);
-      return uniqueBooksTitles.join(', ');
+      // const allBooks = this.authors.reduce((resultArray, { books }) => {
+      //   return resultArray.concat(books);
+      // }, []);
+
+      // const uniqueBooks = new Set(allBooks);
+      // const uniqueBooksInArray = [];
+      // uniqueBooks.forEach((item) => uniqueBooksInArray.push(item));
+
+      // const removedThisBook = uniqueBooksInArray.filter((book) => {
+      //   if (book !== this) {
+      //     return book
+      //   }
+      // });
+      // const uniqueBooksTitles = removedThisBook.map(({ title }) => title);
+      // return uniqueBooksTitles.join(', ');
     }
   });
 
